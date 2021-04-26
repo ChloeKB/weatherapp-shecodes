@@ -1,8 +1,8 @@
 .main-box {
   border: solid 3px black;
   background-image: linear-gradient(60deg, #abecd6 0%, #fbed96 100%);
-  height: 755px;
-  width: 95%;
+  height: 740px;
+  width: 1020px;
   padding: 10px;
   text-align: center;
   margin: auto;
@@ -71,7 +71,7 @@ p {
   margin: 20px auto;
   text-decoration: none;
 }
-.forecast-emoji {
+.weather-icon {
   font-size: 50px;
 }
 .minmax {
