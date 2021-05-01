@@ -33,24 +33,6 @@ let currentMinutes = now.getMinutes();
 let p = document.querySelector("p.date-time");
 p.innerHTML = `${currentDay} - ${currentMonth} ${currentDate} </br> ${currentHour}:${currentMinutes}`;
 
-//convert temperature ºC - ºF
-function convertC(event) {
-  event.preventDefault();
-  let currentTemp = document.querySelector("#temperature");
-  currentTemp.innerHTML = "30º C";
-}
-
-function convertF(event) {
-  event.preventDefault();
-  let currentTemp = document.querySelector("#temperature");
-  currentTemp.innerHTML = "86º F";
-}
-let fahrenheit = document.querySelector("#temp-link-F");
-fahrenheit.addEventListener("click", convertF);
-
-let celsius = document.querySelector("#temp-link-C");
-celsius.addEventListener("click", convertC);
-
 // show temperature according to city search
 
 function timeConversion(timestamp) {
@@ -73,13 +55,16 @@ function showTemperature(response) {
   let minimumTemperature = Math.round(response.data.main.temp_min);
   let maximumTemperature = Math.round(response.data.main.temp_max);
   let minMaxTemp = document.querySelector("#minmax");
-  minMaxTemp.innerHTML = `min ${minimumTemperature}º - max ${maximumTemperature}º`;
+  minMaxTemp.innerHTML = `min ${minimumTemperature}º C - max ${maximumTemperature}º C`;
   //let sunriseTime = response.data.sys.sunrise * 1000;
   //let sunsetTime = response.data.sys.sunset * 1000;
   //let sunTime = document.querySelector("#sunrise-sunset");
   //sunTime.innerHTML = `sunrise ${timeConversion(sunriseTime)} - sunset ${timeConversion(sunsetTime)}`;
   let iconElement = document.querySelector("#icon");
   iconElement.setAttribute("src", `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`);
+  celsiusTemperature = response.data.main.temp;
+  minCelsiusTemperature = response.data.main.temp_min;
+  maxCelsiusTemperature = response.data.main.temp_max;
 }
 
 function search(city) {
@@ -96,5 +81,35 @@ function handleLocation(event) {
 
 let form = document.querySelector("#city-form");
 form.addEventListener("submit", handleLocation);
+
+function convertF(event) {
+  event.preventDefault();
+  let farTemp = (celsiusTemperature * 1.8) + 32;
+  let roundedTemperature = document.querySelector("#temperature");
+  roundedTemperature.innerHTML = Math.round(farTemp) + "º F";
+  let minFarTemp = (minCelsiusTemperature *1.8) + 32;
+  let maxFarTemp = (maxCelsiusTemperature * 1.8) + 32;
+  let minMaxTemp = document.querySelector("#minmax");
+  minMaxTemp.innerHTML = `min ${Math.round(minFarTemp)}º F - max ${Math.round(maxFarTemp)}º F`
+}
+
+function convertC(event) {
+  event.preventDefault();
+  let celTemp = ( - 32) * (5 / 9);
+  let roundedTemperature = document.querySelector("#temperature");
+  roundedTemperature.innerHTML = Math.round(celsiusTemperature) + "º C";
+  let minMaxTemp = document.querySelector("#minmax");
+  minMaxTemp.innerHTML = `min ${Math.round(minCelsiusTemperature)}º C - max ${Math.round(maxCelsiusTemperature)}º C`
+}
+
+let fahrenheit = document.querySelector("#temp-link-F");
+fahrenheit.addEventListener("click", convertF);
+
+let celsius = document.querySelector("#temp-link-C");
+celsius.addEventListener("click", convertC);
+
+let celsiusTemperature = null;
+let minCelsiusTemperature = null;
+let maxCelsiusTemperature = null;
 
 search("Madrid");
