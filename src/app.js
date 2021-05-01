@@ -53,18 +53,18 @@ celsius.addEventListener("click", convertC);
 
 // show temperature according to city search
 
-//function formatHours(timestamp) {
-// let time = new Date(timestamp);
-// let hours = time.getHours();
-// if (hours < 10) {
-//   hours = `0${hours}`;
-// }
-// let minutes = time.getMinutes();
-// if (minutes < 10) {
-//   minutes = `0${minutes}`;
-//  }
-//  return `${hours}:${minutes}`;
-//}
+function timeConversion(timestamp) {
+  let date = new Date(timestamp);
+  let hours = date.getHours();
+  if (hours < 10) {
+    hours = `0${hours}`;
+  }
+  let minutes = date.getMinutes();
+  if (minutes < 10) {
+    minutes = `0${minutes}`;
+  }
+  return `${hours}:${minutes}`;
+}
 
 function showTemperature(response) {
   document.querySelector("h1").innerHTML = response.data.name;
@@ -76,8 +76,10 @@ function showTemperature(response) {
   minMaxTemp.innerHTML = `min ${minimumTemperature}º - max ${maximumTemperature}º`;
   //let sunriseTime = response.data.sys.sunrise * 1000;
   //let sunsetTime = response.data.sys.sunset * 1000;
-  //let sunriseSunset = document.querySelector("#sunrise-sunset");
-  //sunriseSunset.innerHTML = `sunrise ${sunriseTime} - sunset ${sunsetTime}`;
+  //let sunTime = document.querySelector("#sunrise-sunset");
+  //sunTime.innerHTML = `sunrise ${timeConversion(sunriseTime)} - sunset ${timeConversion(sunsetTime)}`;
+  let iconElement = document.querySelector("#icon");
+  iconElement.setAttribute("src", `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`);
 }
 
 function search(city) {

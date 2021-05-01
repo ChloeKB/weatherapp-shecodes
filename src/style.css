@@ -35,7 +35,7 @@ form {
   font-family: "Balsamiq Sans", cursive;
 }
 #submit-button {
-  font-size: 10px;
+  font-size: 15px;
   background-image: linear-gradient(60deg, #abecd6 0%, #fbed96 100%);
   border-radius: 30px;
   border: solid 1px white;
@@ -43,8 +43,9 @@ form {
 .date-time {
   font-size: 12px;
 }
-.weather-emoji {
-  font-size: 150px;
+img {
+  width: 120px;
+  margin: 50px auto;
 }
 .temperature {
   font-size: 40px;
@@ -71,8 +72,12 @@ p {
   margin: 20px auto;
   text-decoration: none;
 }
-.weather-icon {
-  font-size: 50px;
+.img2 {
+  width: 60px;
+  text-align: center;
+  vertical-align: top;
+  display: inline;
+  margin: 0 auto;
 }
 .minmax {
   font-size: 20px;
