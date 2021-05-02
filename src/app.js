@@ -56,10 +56,10 @@ function showTemperature(response) {
   let maximumTemperature = Math.round(response.data.main.temp_max);
   let minMaxTemp = document.querySelector("#minmax");
   minMaxTemp.innerHTML = `min ${minimumTemperature}º C - max ${maximumTemperature}º C`;
-  //let sunriseTime = response.data.sys.sunrise * 1000;
-  //let sunsetTime = response.data.sys.sunset * 1000;
-  //let sunTime = document.querySelector("#sunrise-sunset");
-  //sunTime.innerHTML = `sunrise ${timeConversion(sunriseTime)} - sunset ${timeConversion(sunsetTime)}`;
+  let sunriseTime = response.data.sys.sunrise * 1000;
+  let sunsetTime = response.data.sys.sunset * 1000;
+  let sunTime = document.querySelector("#sunrise-sunset");
+  sunTime.innerHTML = `sunrise ${timeConversion(sunriseTime)} </br> sunset ${timeConversion(sunsetTime)}`;
   let iconElement = document.querySelector("#icon");
   iconElement.setAttribute("src", `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`);
   celsiusTemperature = response.data.main.temp;
