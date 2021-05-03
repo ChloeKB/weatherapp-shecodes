@@ -48,6 +48,40 @@ function timeConversion(timestamp) {
   return `${hours}:${minutes}`;
 }
 
+function displayWeatherForecast() {
+  let forecastElement = document.querySelector("#forecast");
+
+  let forecastHTML = `    <h2>
+  Forecast for the next 6 days
+</h2>
+<hr>
+<div class ="row">`;
+  let days = ["Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+  days.forEach(function (forecastDay) {
+    forecastHTML = forecastHTML + `
+
+  <div class="container day-block">
+        <div class="row day-1 weather-card">
+          <div class="col-3 weather-icon">
+            <img src="media/weather-icon1.png" alt="cloudy weather icon" class="img2"> 
+          </div>
+          <div class="col-6 minmax weather-forecast-temperature">
+            <span class="weather-forecast-mintemp">10º</span> - <span class="weather-forecast-maxtemp">18º</span>
+          </div>
+          <div class="col-3 weather-forecast-day">
+            ${forecastDay}
+          </div>
+        </div>
+      </div>
+  `;
+  })
+  
+  forecastHTML = forecastHTML + `</div>`
+  
+  forecastElement.innerHTML = forecastHTML;
+
+}
+
 function showTemperature(response) {
   document.querySelector("h1").innerHTML = response.data.name;
   let roundedTemperature = Math.round(response.data.main.temp);
@@ -65,6 +99,7 @@ function showTemperature(response) {
   celsiusTemperature = response.data.main.temp;
   minCelsiusTemperature = response.data.main.temp_min;
   maxCelsiusTemperature = response.data.main.temp_max;
+  displayWeatherForecast();
 }
 
 function search(city) {
