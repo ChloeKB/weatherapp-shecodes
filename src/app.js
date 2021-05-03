@@ -1,4 +1,4 @@
-//date and time
+//date and time for main and forecast
 
 let now = new Date();
 let days = [
@@ -29,11 +29,10 @@ let currentMonth = months[now.getMonth()];
 let currentDate = now.getDate();
 let currentHour = now.getHours();
 let currentMinutes = now.getMinutes();
+let currentYear = now.getFullYear();
 
 let p = document.querySelector("p.date-time");
-p.innerHTML = `${currentDay} - ${currentMonth} ${currentDate} </br> ${currentHour}:${currentMinutes}`;
-
-// show temperature according to city search
+p.innerHTML = `Last updated:</br>${currentDay} - ${currentMonth} ${currentDate} ${currentYear} </br> ${currentHour}:${currentMinutes}`;
 
 function timeConversion(timestamp) {
   let date = new Date(timestamp);
@@ -48,8 +47,24 @@ function timeConversion(timestamp) {
   return `${hours}:${minutes}`;
 }
 
+function forecastFormatDate(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let day = date.getDay();
+  let weekDay = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"]
+  return weekDay[day];
+}
+
+// forecast weather 
+
 function displayWeatherForecast(response) {
-  console.log(response.data.daily);
+  let fetchedForecast = response.data.daily;
   let forecastElement = document.querySelector("#forecast");
 
   let forecastHTML = `<h2>
@@ -57,34 +72,36 @@ function displayWeatherForecast(response) {
   </h2>
   <hr>
   <div class ="row">`;
-  let days = ["Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-  days.forEach(function (forecastDay) {
-    forecastHTML = forecastHTML + `
+  fetchedForecast.forEach(function (forecastDay, index) {
+    if (index < 6){
+      forecastHTML = forecastHTML + `
   <div class="container day-block">
         <div class="row day-1 weather-card">
           <div class="col-3 weather-icon">
-            <img src="media/weather-icon1.png" alt="cloudy weather icon" class="img2"> 
+            <img src= "http://openweathermap.org/img/wn/${forecastDay.weather[0].icon}@2x.png" alt="weather icon" class="img2"> 
           </div>
           <div class="col-6 minmax weather-forecast-temperature">
-            <span class="weather-forecast-mintemp">10º</span> - <span class="weather-forecast-maxtemp">18º</span>
+            <span class="weather-forecast-mintemp">${Math.round(forecastDay.temp.min)}º</span> - <span class="weather-forecast-maxtemp">${Math.round(forecastDay.temp.max)}º</span>
           </div>
           <div class="col-3 weather-forecast-day">
-            ${forecastDay}
+            ${forecastFormatDate(forecastDay.dt)}
           </div>
         </div>
       </div>
   `;
+  }
   })
   forecastHTML = forecastHTML + `</div>`
   forecastElement.innerHTML = forecastHTML;
 }
 
-function fetchForecast(coordinates) {
+function fetchForecastApi(coordinates) {
   let apiKey = "dc61646fab1512ff70fdca30d4a70361";
   let apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordinates.lat}&lon=${coordinates.lon}&appid=${apiKey}&units=metric`
   axios.get(apiUrl).then(displayWeatherForecast);
-
 }
+
+// main temperature and info
 
 function showTemperature(response) {
   document.querySelector("h1").innerHTML = response.data.name;
@@ -97,16 +114,14 @@ function showTemperature(response) {
   let sunriseTime = response.data.sys.sunrise * 1000;
   let sunsetTime = response.data.sys.sunset * 1000;
   let sunTime = document.querySelector("#sunrise-sunset");
-  sunTime.innerHTML = `sunrise ${timeConversion(sunriseTime)} </br> sunset ${timeConversion(sunsetTime)}`;
+  sunTime.innerHTML = `sunrise ${timeConversion(sunriseTime)} (UTC+2) </br> sunset ${timeConversion(sunsetTime)} (UTC+2)`;
   let iconElement = document.querySelector("#icon");
   iconElement.setAttribute("src", `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`);
   celsiusTemperature = response.data.main.temp;
   minCelsiusTemperature = response.data.main.temp_min;
   maxCelsiusTemperature = response.data.main.temp_max;
-  
-  //let latLocation = response.data.coord.lat;
-  //let longLocation = response.data.coord.lon;
-  fetchForecast(response.data.coord);
+
+  fetchForecastApi(response.data.coord);
   displayWeatherForecast(response);
 }
 
@@ -124,6 +139,8 @@ function handleLocation(event) {
 
 let form = document.querySelector("#city-form");
 form.addEventListener("submit", handleLocation);
+
+// temperature conversion
 
 function convertF(event) {
   event.preventDefault();
@@ -154,5 +171,7 @@ celsius.addEventListener("click", convertC);
 let celsiusTemperature = null;
 let minCelsiusTemperature = null;
 let maxCelsiusTemperature = null;
+
+// adding Madrid as the primary city searched not to have an empty value
 
 search("Madrid");
