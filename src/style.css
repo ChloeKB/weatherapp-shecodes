@@ -1,8 +1,8 @@
 .main-box {
   border: solid 3px black;
   background-image: linear-gradient(60deg, #abecd6 0%, #fbed96 100%);
-  height: 740px;
-  width: 1020px;
+  max-height: 740px;
+  max-width: 1020px;
   padding: 10px;
   text-align: center;
   margin: auto;
@@ -39,7 +39,7 @@
 form {
   width: 400px;
   margin: 20px 0 20px 50px;
-  font-size: 25px;
+  font-size: 20px;
   font-family: "Balsamiq Sans", cursive;
 }
 #submit-button {
@@ -52,11 +52,11 @@ form {
   font-size: 12px;
 }
 img {
-  width: 120px;
-  margin: 50px auto;
+  width: 110px;
+  margin: 30px auto;
 }
 .temperature {
-  font-size: 40px;
+  font-size: 45px;
   font-weight: 500;
 }
 p {
@@ -87,10 +87,17 @@ p {
   display: inline;
   margin: 0 auto;
 }
-.minmax {
-  font-size: 18px;
+.weather-description {
+  font-size: 15px;
   text-align: center;
+  text-transform: capitalize;
+}
+.sunrise-sunset{
+  font-size: 14px;
 }
 .weather-forecast-day {
   font-size: 15px;
+}
+#mintemp{
+  color: grey;
 }

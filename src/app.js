@@ -80,8 +80,8 @@ function displayWeatherForecast(response) {
           <div class="col-3 weather-icon">
             <img src= "http://openweathermap.org/img/wn/${forecastDay.weather[0].icon}@2x.png" alt="weather icon" class="img2"> 
           </div>
-          <div class="col-6 minmax weather-forecast-temperature">
-            <span class="weather-forecast-mintemp">${Math.round(forecastDay.temp.min)}º</span> - <span class="weather-forecast-maxtemp">${Math.round(forecastDay.temp.max)}º</span>
+          <div class="col-6 minmax weather-forecast-temperature" id="minmax">
+            <span class="weather-forecast-mintemp" id="mintemp">${Math.round(forecastDay.temp.min)}º</span> | <span class="weather-forecast-maxtemp" id ="maxtemp">${Math.round(forecastDay.temp.max)}º</span>
           </div>
           <div class="col-3 weather-forecast-day">
             ${forecastFormatDate(forecastDay.dt)}
@@ -111,6 +111,10 @@ function showTemperature(response) {
   let maximumTemperature = Math.round(response.data.main.temp_max);
   let minMaxTemp = document.querySelector("#minmax");
   minMaxTemp.innerHTML = `min ${minimumTemperature}º C - max ${maximumTemperature}º C`;
+  let windSpeed = Math.round(response.data.wind.speed);
+  let weatherCondition = response.data.weather[0].description;
+  let weatherDescription = document.querySelector("#weather-description");
+  weatherDescription.innerHTML = `Wind speed: ${windSpeed} km/h </br> ${weatherCondition}`;
   let sunriseTime = response.data.sys.sunrise * 1000;
   let sunsetTime = response.data.sys.sunset * 1000;
   let sunTime = document.querySelector("#sunrise-sunset");
