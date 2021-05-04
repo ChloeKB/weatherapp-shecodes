@@ -80,7 +80,7 @@ function displayWeatherForecast(response) {
           <div class="col-3 weather-icon">
             <img src= "http://openweathermap.org/img/wn/${forecastDay.weather[0].icon}@2x.png" alt="weather icon" class="img2"> 
           </div>
-          <div class="col-6 minmax weather-forecast-temperature" id="minmax">
+          <div class="col-6 minmax weather-forecast-temperature" id="minmax-forecast">
             <span class="weather-forecast-mintemp" id="mintemp">${Math.round(forecastDay.temp.min)}º</span> | <span class="weather-forecast-maxtemp" id ="maxtemp">${Math.round(forecastDay.temp.max)}º</span>
           </div>
           <div class="col-3 weather-forecast-day">
@@ -144,37 +144,6 @@ function handleLocation(event) {
 let form = document.querySelector("#city-form");
 form.addEventListener("submit", handleLocation);
 
-// temperature conversion
-
-function convertF(event) {
-  event.preventDefault();
-  let farTemp = (celsiusTemperature * 1.8) + 32;
-  let roundedTemperature = document.querySelector("#temperature");
-  roundedTemperature.innerHTML = Math.round(farTemp) + "º F";
-  let minFarTemp = (minCelsiusTemperature *1.8) + 32;
-  let maxFarTemp = (maxCelsiusTemperature * 1.8) + 32;
-  let minMaxTemp = document.querySelector("#minmax");
-  minMaxTemp.innerHTML = `min ${Math.round(minFarTemp)}º F - max ${Math.round(maxFarTemp)}º F`
-}
-
-function convertC(event) {
-  event.preventDefault();
-  let celTemp = ( - 32) * (5 / 9);
-  let roundedTemperature = document.querySelector("#temperature");
-  roundedTemperature.innerHTML = Math.round(celsiusTemperature) + "º C";
-  let minMaxTemp = document.querySelector("#minmax");
-  minMaxTemp.innerHTML = `min ${Math.round(minCelsiusTemperature)}º C - max ${Math.round(maxCelsiusTemperature)}º C`
-}
-
-let fahrenheit = document.querySelector("#temp-link-F");
-fahrenheit.addEventListener("click", convertF);
-
-let celsius = document.querySelector("#temp-link-C");
-celsius.addEventListener("click", convertC);
-
-let celsiusTemperature = null;
-let minCelsiusTemperature = null;
-let maxCelsiusTemperature = null;
 
 // adding Madrid as the primary city searched not to have an empty value
 
